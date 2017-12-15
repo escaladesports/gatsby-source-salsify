@@ -8,8 +8,6 @@ const fs = require('fs-extra')
 const url = 'https://app.salsify.com/api/v1/products/'
 const regStart = /[_a-zA-Z]/
 
-console.log('SALSIFY')
-
 exports.sourceNodes = async ({ boundActionCreators }, options) => {
 
 	options = Object.assign({
