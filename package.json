@@ -1,0 +1,15 @@
+{
+	"title": "gatsby-source-salsify",
+	"version": "0.0.0",
+	"repository": "git@github.com:escaladesports/gatsby-source-salsify.git",
+	"author": "Kennedy Rose <kennedy@escaladesports.com>",
+	"license": "MIT",
+	"dependencies": {
+		"isomorphic-fetch": "^2.2.1",
+		"crypto": "^1.0.1",
+		"globby": "^7.1.1",
+		"camelcase": "^4.1.0",
+		"front-matter": "^2.3.0",
+		"fs-extra": "^5.0.0"
+	}
+}
