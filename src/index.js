@@ -8,6 +8,8 @@ const fs = require('fs-extra')
 const url = 'https://app.salsify.com/api/v1/products/'
 const regStart = /[_a-zA-Z]/
 
+console.log('SALSIFY')
+
 exports.sourceNodes = async ({ boundActionCreators }, options) => {
 
 	options = Object.assign({
@@ -59,11 +61,11 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
 					}
 				})
 
-				return {
+
+				return Object.assign({
 					id: id,
 					parent: null,
 					children: [],
-					... res,
 					internal: {
 						type: 'SalsifyContent',
 						contentDigest: crypto
@@ -71,7 +73,7 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
 							.update(JSON.stringify(res))
 							.digest('hex')
 					}
-				}
+				}, res)
 			})
 	}))
 

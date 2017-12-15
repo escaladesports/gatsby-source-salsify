@@ -19,3 +19,5 @@ static
 # Temporary
 temp
 temp-*
+
+gatsby-node.js
