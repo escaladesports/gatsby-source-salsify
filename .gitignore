@@ -11,13 +11,21 @@ node_modules/
 
 # Development/Environment
 .env
+.env.*
 dist
 .next
 json
-static
+public
+.cache
 
 # Temporary
 temp
 temp-*
 
-gatsby-node.js
+
+
+
+/gatsby-node.js
+/lib.js
+/nodes.js
+/queries.js

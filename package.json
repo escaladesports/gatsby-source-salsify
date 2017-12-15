@@ -1,28 +1,56 @@
 {
-	"name": "gatsby-source-salsify",
+  "name": "gatsby-source-salsify",
 	"version": "1.0.3",
-	"repository": "git@github.com:escaladesports/gatsby-source-salsify.git",
-	"author": "Kennedy Rose <kennedy@escaladesports.com>",
-	"license": "MIT",
-	"description": "Gatsby plugin to use Salsify as a data source.",
-	"main": "index.js",
-	"scripts": {
-		"build": "webpack",
-		"clean": "rimraf gatsby-node.js",
-		"prepublish": "npm run clean && npm run build"
-	},
-	"dependencies": {
-		"isomorphic-fetch": "^2.2.1",
-		"crypto": "^1.0.1",
-		"gatsby-cli": "^1.1.23",
-		"globby": "^7.1.1",
-		"camelcase": "^4.1.0",
-		"front-matter": "^2.3.0",
-		"fs-extra": "^5.0.0"
-	},
-	"devDependencies": {
-		"standard": "^10.0.3",
-		"webpack": "^3.8.1",
-		"webpack-node-externals": "^1.6.0"
-	}
+	"description": "Fetch data from Salsify API",
+  "scripts": {
+    "build": "babel src --out-dir . --ignore __tests__",
+    "format": "prettier --write 'src/**/*.js' README.md",
+    "prepublish": "npm run build",
+    "test": "jest",
+    "test:watch": "npm run test -- --watch",
+    "watch": "npm run build -- --watch"
+  },
+  "homepage": "https://github.com/escaladesports/gatsby-source-salsify",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/escaladesports/gatsby-source-salsify.git"
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "gatsby-source-plugin",
+    "salsify"
+  ],
+"author": "Kennedy Rose <kennedy@escaladesports.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-rewire": "^1.1.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "gatsby": "^1.9.36",
+    "gatsby-node-helpers": "^0.1.1",
+    "graphql": "^0.11.3",
+    "graphql-tools": "^1.2.2",
+    "jest": "^21.1.0",
+    "joi": "^11.0.1",
+    "prettier": "^1.9.2"
+  },
+  "dependencies": {
+    "es6-error": "^4.0.2",
+    "graphql-client": "^2.0.0",
+    "json-stringify-safe": "^5.0.1",
+    "lodash": "^4.17.4",
+	"camelcase": "^4.1.0",
+	"crypto": "^1.0.1",
+	"front-matter": "^2.3.0",
+	"fs-extra": "^5.0.0",
+	"globby": "^7.1.1",
+	"graphql": "^0.10.3",
+	"isomorphic-fetch": "^2.2.1",
+    "read-pkg-up": "^2.0.0"
+  }
 }
