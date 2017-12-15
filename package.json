@@ -1,7 +1,7 @@
 {
   "name": "gatsby-source-salsify",
-	"version": "1.0.3",
-	"description": "Fetch data from Salsify API",
+  "version": "1.0.4",
+  "description": "Fetch data from Salsify API",
   "scripts": {
     "build": "babel src --out-dir . --ignore __tests__",
     "format": "prettier --write 'src/**/*.js' README.md",
@@ -21,7 +21,7 @@
     "gatsby-source-plugin",
     "salsify"
   ],
-"author": "Kennedy Rose <kennedy@escaladesports.com>",
+  "author": "Kennedy Rose <kennedy@escaladesports.com>",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -44,13 +44,13 @@
     "graphql-client": "^2.0.0",
     "json-stringify-safe": "^5.0.1",
     "lodash": "^4.17.4",
-	"camelcase": "^4.1.0",
-	"crypto": "^1.0.1",
-	"front-matter": "^2.3.0",
-	"fs-extra": "^5.0.0",
-	"globby": "^7.1.1",
-	"graphql": "^0.10.3",
-	"isomorphic-fetch": "^2.2.1",
+    "camelcase": "^4.1.0",
+    "crypto": "^1.0.1",
+    "front-matter": "^2.3.0",
+    "fs-extra": "^5.0.0",
+    "globby": "^7.1.1",
+    "graphql": "^0.10.3",
+    "isomorphic-fetch": "^2.2.1",
     "read-pkg-up": "^2.0.0"
   }
 }
