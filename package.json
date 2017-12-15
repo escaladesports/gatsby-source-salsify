@@ -1,6 +1,6 @@
 {
   "name": "gatsby-source-salsify",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Fetch data from Salsify API",
   "scripts": {
     "build": "babel src --out-dir . --ignore __tests__",
