@@ -1,6 +1,6 @@
 {
 	"name": "gatsby-source-salsify",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"repository": "git@github.com:escaladesports/gatsby-source-salsify.git",
 	"author": "Kennedy Rose <kennedy@escaladesports.com>",
 	"license": "MIT",
