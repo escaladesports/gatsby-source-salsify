@@ -38,6 +38,9 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
 			})
 			.then(res => res.json())
 			.then(res => {
+    if(!res) {
+     return
+    }
 				res = formatSalsifyObject(res)
 				for (let i in options.types){
 					if(res[i]){
