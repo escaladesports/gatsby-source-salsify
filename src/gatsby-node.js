@@ -4,11 +4,16 @@ const glob = require('globby')
 const camelCase = require('camelcase')
 const matter = require('front-matter')
 const fs = require('fs-extra')
-
+const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
 const url = 'https://app.salsify.com/api/v1/products/'
 const regStart = /[_a-zA-Z]/
+const cloud = require(`./utils/cloudinary`)
+const axios = require('axios')
 
-exports.sourceNodes = async ({ boundActionCreators }, options) => {
+exports.sourceNodes = async (
+  { boundActionCreators, cache, store, createNodeId },
+  options,
+) => {
   options = Object.assign(
     {
       ids: [],
@@ -25,7 +30,7 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
     return
   }
 
-  const { createNode } = boundActionCreators
+  const { createNode, touchNode } = boundActionCreators
 
   if (options.markdownPath) {
     let idsArrays = await getIdsFromMarkdown(options.path)
@@ -38,7 +43,7 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
   }
 
   const data = await Promise.all(
-    options.ids.map(id => {
+    options.ids.map((id, idIndex) => {
       return fetch(`${url}${id}`, {
         method: 'GET',
         headers: {
@@ -51,7 +56,7 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
           }
           return res.json()
         })
-        .then(res => {
+        .then(async res => {
           res = formatSalsifyObject(res)
           for (let i in options.types) {
             if (res[i]) {
@@ -72,7 +77,7 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
             }
           })
 
-          return Object.assign(
+          let node = Object.assign(
             {
               id: id,
               parent: null,
@@ -87,6 +92,60 @@ exports.sourceNodes = async ({ boundActionCreators }, options) => {
             },
             res,
           )
+          // store images in cache to be used for graphql
+          // TEST THIS BELOW
+          let updated = {}
+
+          if (res[`webImages`]) {
+            const updatedImages = await Promise.all(
+              res[`webImages`].map(async img => {
+                let fileNodeID
+                const webImageCacheKey = `web-images-${img.id}`
+                // TypeError: Cannot read property 'internal' of null on 2nd run
+                let cacheMediaData = false
+                // try {
+                //   cacheMediaData = await cache.get(webImageCacheKey)
+                // } catch (e) {
+                //   console.log(e)
+                // }
+
+                if (cacheMediaData) {
+                  fileNodeID = cacheMediaData.fileNodeID
+                  touchNode({ nodeId: cacheMediaData.fileNodeID })
+                }
+                if (!fileNodeID) {
+                  try {
+                    const fileNode = await createRemoteFileNode({
+                      url: cloud(img.url, `w_20`, `dn_72`),
+                      store,
+                      cache,
+                      createNode,
+                      createNodeId,
+                    })
+
+                    if (fileNode) {
+                      fileNodeID = fileNode.id
+
+                      const newCache = await cache.set(webImageCacheKey, {
+                        fileNodeID,
+                      })
+                      if (newCache !== 'Ok') {
+                        throw new Error('ERROR on caching data.')
+                      }
+                    }
+                  } catch (e) {
+                    // Ignore
+                    console.log(`ERROR ${e}`)
+                  }
+                }
+                if (fileNodeID) {
+                  return fileNodeID
+                }
+              }),
+            )
+            updated.localWebImages___NODE = updatedImages
+          }
+          return { ...node, ...updated }
         })
     }),
   )

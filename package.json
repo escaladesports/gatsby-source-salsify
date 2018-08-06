@@ -38,11 +38,13 @@
     "prettier": "^1.9.2"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "camelcase": "^4.1.0",
     "crypto": "^1.0.1",
     "es6-error": "^4.0.2",
     "front-matter": "^2.3.0",
     "fs-extra": "^5.0.0",
+    "gatsby-source-filesystem": "^1.5.39",
     "globby": "^7.1.1",
     "isomorphic-fetch": "^2.2.1",
     "json-stringify-safe": "^5.0.1",
