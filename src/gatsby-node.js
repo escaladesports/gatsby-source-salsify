@@ -76,7 +76,6 @@ exports.sourceNodes = async (
               }
             }
           })
-
           let node = Object.assign(
             {
               id: id,
@@ -93,59 +92,53 @@ exports.sourceNodes = async (
             res,
           )
           // store images in cache to be used for graphql
-          // TEST THIS BELOW
           let updated = {}
-
-          if (res[`webImages`]) {
-            const updatedImages = await Promise.all(
-              res[`webImages`].map(async img => {
-                let fileNodeID
-                const webImageCacheKey = `web-images-${img.id}`
-                // TypeError: Cannot read property 'internal' of null on 2nd run
-                let cacheMediaData = false
-                // try {
-                //   cacheMediaData = await cache.get(webImageCacheKey)
-                // } catch (e) {
-                //   console.log(e)
-                // }
-
-                if (cacheMediaData) {
-                  fileNodeID = cacheMediaData.fileNodeID
-                  touchNode({ nodeId: cacheMediaData.fileNodeID })
-                }
-                if (!fileNodeID) {
+          if (options.cacheWebImages) {
+            if (res[`webImages`]) {
+              const updatedImages = await Promise.all(
+                res[`webImages`].map(async img => {
+                  let fileNodeID
+                  // const webImageCacheKey = img.id
+                  // const cacheMediaData = await cache.get(webImageCacheKey)
+                  // if (cacheMediaData) {
+                  //   fileNodeID = cacheMediaData.fileNodeID
+                  //   touchNode({ nodeId: cacheMediaData.fileNodeID })
+                  // }
+                  // if (!fileNodeID) {
                   try {
                     const fileNode = await createRemoteFileNode({
-                      url: cloud(img.url, `w_20`, `dn_72`),
+                      url: cloud(img.url, options.cloudinaryProps),
                       store,
                       cache,
                       createNode,
                       createNodeId,
                     })
-
                     if (fileNode) {
                       fileNodeID = fileNode.id
-
-                      const newCache = await cache.set(webImageCacheKey, {
+                      await cache.set(webImageCacheKey, {
                         fileNodeID,
                       })
-                      if (newCache !== 'Ok') {
-                        throw new Error('ERROR on caching data.')
-                      }
                     }
                   } catch (e) {
                     // Ignore
-                    console.log(`ERROR ${e}`)
                   }
-                }
-                if (fileNodeID) {
-                  return fileNodeID
-                }
-              }),
-            )
-            updated.localWebImages___NODE = updatedImages
+                  // }
+                  if (fileNodeID) {
+                    return fileNodeID
+                  }
+                }),
+              )
+              if (updatedImages.length > 0) {
+                updated.localWebImages___NODE = updatedImages
+              }
+            }
           }
-          return { ...node, ...updated }
+
+          if (Object.keys(updated).length > 0) {
+            return { ...node, ...updated }
+          } else {
+            return node
+          }
         })
     }),
   )
