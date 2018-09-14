@@ -24,6 +24,8 @@ plugins: [
 		options: {
 			ids: ['U2508', 'U2000'],
 			apiKey: "your_salsify_key",
+			org: "your_salsify_org_id",
+			concurrency: 10, // Number of simultaneous fetches to salsify (default = 10)
 		},
 	},
 ]
@@ -39,6 +41,7 @@ plugins: [
 		options: {
 			markdownPath: `${__dirname}/src/markdown/products`,
 			apiKey: "your_salsify_key",
+			org: "your_salsify_org_id",
 		},
 	},
 ]
